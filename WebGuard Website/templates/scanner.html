@@ -1,0 +1,154 @@
+{% extends 'navbar.html' %}
+
+{% block title %}
+Scanner
+{% endblock %}
+
+{% block content %}
+<style>
+  .scanner-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 2rem;
+  }
+
+  .scanner-form {
+    background-color: #f8f9fa;
+    padding: 2rem;
+    width: 100%;
+    max-width: 600px;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .url-input {
+    width: 100%;
+    padding: 1rem;
+    border: 2px solid #ced4da;
+    border-radius: 8px;
+    font-size: 1rem;
+  }
+
+  .scan-type-select {
+    width: 100%;
+    padding: 1rem;
+    border: 2px solid #ced4da;
+    border-radius: 8px;
+    font-size: 1rem;
+  }
+
+  .scan-button {
+    background-color: #1e6056;
+    color: white;
+    padding: 1rem;
+    font-size: 1.1rem;
+    font-weight: bold;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .scan-button:hover {
+    background-color: #145144;
+  }
+
+  .scan-results {
+    width: 100%;
+    max-width: 800px;
+    margin-top: 2rem;
+    padding: 1rem;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+  }
+
+  .scan-results p {
+    margin: 0.5rem 0;
+    font-size: 1rem;
+    color: #333;
+  }
+
+  .scan-results .error {
+    color: #dc3545;
+  }
+
+  .scan-results .success {
+    color: #28a745;
+  }
+</style>
+
+<div class="scanner-container">
+  <h1 style="color: black; font-size: 2.5rem; font-weight: bold; margin-bottom: 2rem; text-transform: uppercase; letter-spacing: 2px;">Advanced Web Scanner</h1>
+
+  <form class="scanner-form">
+    <label for="url-input" style="font-weight: bold; font-size: 1.2rem;">Enter URL to Scan:</label>
+    <input id="url-input" class="url-input" type="text" placeholder="https://example.com" required>
+
+    <label for="scan-type" style="font-weight: bold; font-size: 1.2rem;">Select Scan Type:</label>
+    <select id="scan-type" class="scan-type-select">
+      <option value="all">All</option>
+      <option value="sql">SQL Injection</option>
+      <option value="csrf">CSRF</option>
+      <option value="ssrf">SSRF</option>
+      <option value="xss">XSS</option>
+      <option value="directory-traversal">Directory Traversal</option>
+    </select>
+
+    <button type="button" class="scan-button" id="scan-button">Start Scan</button>
+  </form>
+
+  <div class="scan-results" id="scan-results">
+    <!-- Real-time scan results will be displayed here -->
+  </div>
+</div>
+
+<script>
+  document.getElementById('scan-button').addEventListener('click', () => {
+    const urlInput = document.getElementById('url-input').value;
+    const scanType = document.getElementById('scan-type').value;
+    const resultsDiv = document.getElementById('scan-results');
+
+    if (!urlInput) {
+      alert('Please enter a URL to scan.');
+      return;
+    }
+
+    if (scanType !== 'all' && scanType !== 'csrf') {
+      resultsDiv.innerHTML = '<p class="error">This feature will be updated soon.</p>';
+      return;
+    }
+
+    resultsDiv.innerHTML = '<p>Starting scan... Please wait.</p>';
+
+    // Establish SSE connection
+    const eventSource = new EventSource(`/stream?url=${encodeURIComponent(urlInput)}&scan_type=${scanType}`);
+
+    eventSource.onmessage = (event) => {
+      const data = JSON.parse(event.data);
+      const message = data.message;
+
+      const resultLine = document.createElement('p');
+      resultLine.textContent = message;
+
+      if (message.toLowerCase().includes('error') || message.toLowerCase().includes('vulnerable')) {
+        resultLine.classList.add('error');
+      } else if (message.toLowerCase().includes('secure')) {
+        resultLine.classList.add('success');
+      }
+
+      resultsDiv.appendChild(resultLine);
+      resultsDiv.scrollTop = resultsDiv.scrollHeight; // Auto-scroll to the latest result
+    };
+
+    eventSource.onerror = () => {
+      eventSource.close();
+      resultsDiv.innerHTML += '<p class="error">Scan completed or connection closed.</p>';
+    };
+  });
+</script>
+{% endblock %}
