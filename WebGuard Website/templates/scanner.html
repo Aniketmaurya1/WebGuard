@@ -10,88 +10,228 @@ Scanner
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 2rem;
+    padding: 1.5rem;
+    max-width: 1000px;
+    margin: 0 auto;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  }
+
+  .scanner-heading {
+    color: #2d3748;
+    font-size: 2rem;
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+    text-align: center;
   }
 
   .scanner-form {
-    background-color: #f8f9fa;
-    padding: 2rem;
+    background-color: #fcfcfc;
+    padding: 1.75rem;
     width: 100%;
-    max-width: 600px;
-    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
-    border-radius: 12px;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    border: 1px solid #f0f0f0;
     display: flex;
     flex-direction: column;
-    gap: 1.5rem;
+    gap: 1.25rem;
+  }
+
+  .form-label {
+    font-size: 0.9rem;
+    color: #4a5568;
+    font-weight: 500;
   }
 
   .url-input {
     width: 100%;
-    padding: 1rem;
-    border: 2px solid #ced4da;
-    border-radius: 8px;
-    font-size: 1rem;
+    padding: 0.75rem;
+    border: none;
+    border-bottom: 1px solid #e0e0e0;
+    font-size: 0.95rem;
+    background-color: transparent;
+    transition: all 0.2s ease;
+  }
+
+  .url-input:focus {
+    outline: none;
+    border-bottom-color: #1e6056;
+    box-shadow: 0 1px 0 0 #1e6056;
   }
 
   .scan-type-select {
     width: 100%;
-    padding: 1rem;
-    border: 2px solid #ced4da;
-    border-radius: 8px;
-    font-size: 1rem;
+    padding: 0.75rem;
+    font-size: 0.95rem;
+    border: 1px solid #e0e0e0;
+    border-radius: 6px;
+    background-color: white;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%234a5568' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 0.75rem center;
+    background-size: 16px 12px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+
+  .scan-type-select:focus {
+    outline: none;
+    border-color: #1e6056;
+    box-shadow: 0 0 0 1px #1e6056;
+  }
+
+  .scan-type-select option {
+    padding: 0.5rem;
+    background: white;
+    color: #2d3748;
   }
 
   .scan-button {
     background-color: #1e6056;
     color: white;
-    padding: 1rem;
-    font-size: 1.1rem;
-    font-weight: bold;
+    padding: 0.85rem;
+    font-size: 1rem;
     border: none;
-    border-radius: 8px;
+    border-radius: 6px;
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: all 0.2s ease;
+    letter-spacing: 0.5px;
+    margin-top: 0.5rem;
   }
 
   .scan-button:hover {
-    background-color: #145144;
+    background-color: #164a43;
+    transform: translateY(-1px);
+  }
+
+  .scan-results-container {
+    width: 100%;
+    margin-top: 2rem;
   }
 
   .scan-results {
     width: 100%;
-    max-width: 800px;
-    margin-top: 2rem;
     padding: 1rem;
-    background-color: #f8f9fa;
+    background-color: #fcfcfc;
     border-radius: 8px;
-    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    border: 1px solid #f0f0f0;
+    max-height: 60vh;
+    overflow-y: auto;
   }
 
-  .scan-results p {
+  .result-message {
     margin: 0.5rem 0;
-    font-size: 1rem;
-    color: #333;
+    font-size: 0.92rem;
+    padding: 0.8rem;
+    border-radius: 6px;
+    display: flex;
+    align-items: flex-start;
+    line-height: 1.5;
   }
 
-  .scan-results .error {
-    color: #dc3545;
+  .result-message::before {
+    content: '';
+    display: inline-block;
+    width: 18px;
+    height: 18px;
+    margin-right: 10px;
+    flex-shrink: 0;
+    background-size: contain;
   }
 
-  .scan-results .success {
-    color: #28a745;
+  .error {
+    color: #c53030;
+    background-color: #fff5f5;
+    border-left: 3px solid #c53030;
+  }
+
+  .error::before {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23c53030'%3E%3Cpath d='M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z'/%3E%3C/svg%3E");
+  }
+
+  .success {
+    color: #2f855a;
+    background-color: #f0fff4;
+    border-left: 3px solid #2f855a;
+  }
+
+  .success::before {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%232f855a'%3E%3Cpath d='M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z'/%3E%3C/svg%3E");
+  }
+
+  .warning {
+    color: #b7791f;
+    background-color: #fffaf0;
+    border-left: 3px solid #b7791f;
+  }
+
+  .warning::before {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23b7791f'%3E%3Cpath d='M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z'/%3E%3C/svg%3E");
+  }
+
+  .info {
+    color: #2b6cb0;
+    background-color: #ebf8ff;
+    border-left: 3px solid #2b6cb0;
+  }
+
+  .info::before {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%232b6cb0'%3E%3Cpath d='M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z'/%3E%3C/svg%3E");
+  }
+
+  .loading-skeleton {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    padding: 1rem 0;
+  }
+
+  .skeleton-line {
+    height: 16px;
+    background-color: #edf2f7;
+    border-radius: 4px;
+    animation: pulse 1.5s ease-in-out infinite;
+  }
+
+  .skeleton-line.short {
+    width: 60%;
+  }
+
+  .skeleton-line.medium {
+    width: 80%;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 0.6; }
+    50% { opacity: 1; }
+  }
+
+  @media (max-width: 768px) {
+    .scanner-container {
+      padding: 1rem;
+    }
+    
+    .scanner-heading {
+      font-size: 1.75rem;
+    }
+    
+    .scanner-form {
+      padding: 1.25rem;
+    }
   }
 </style>
 
 <div class="scanner-container">
-  <h1 style="color: black; font-size: 2.5rem; font-weight: bold; margin-bottom: 2rem; text-transform: uppercase; letter-spacing: 2px;">Advanced Web Scanner</h1>
+  <h1 class="scanner-heading">Web Security Scanner</h1>
 
   <form class="scanner-form">
-    <label for="url-input" style="font-weight: bold; font-size: 1.2rem;">Enter URL to Scan:</label>
+    <label for="url-input" class="form-label">Website URL</label>
     <input id="url-input" class="url-input" type="text" placeholder="https://example.com" required>
 
-    <label for="scan-type" style="font-weight: bold; font-size: 1.2rem;">Select Scan Type:</label>
+    <label for="scan-type" class="form-label">Scan Type</label>
     <select id="scan-type" class="scan-type-select">
-      <option value="all">All</option>
+      <option value="all">Comprehensive Scan</option>
       <option value="sql">SQL Injection</option>
       <option value="csrf">CSRF</option>
       <option value="ssrf">SSRF</option>
@@ -99,56 +239,286 @@ Scanner
       <option value="directory-traversal">Directory Traversal</option>
     </select>
 
-    <button type="button" class="scan-button" id="scan-button">Start Scan</button>
+    <button type="button" class="scan-button" id="scan-button">Start Security Scan</button>
+    <button type="button" class="scan-button" id="new-scan-button" style="background-color: #6b7280; margin-top: 0.5rem;">New Scan</button>
   </form>
 
-  <div class="scan-results" id="scan-results">
-    <!-- Real-time scan results will be displayed here -->
+  <div class="scan-results-container">
+    <div class="scan-results" id="scan-results">
+      <!-- Results will appear here -->
+    </div>
   </div>
 </div>
 
 <script>
-  document.getElementById('scan-button').addEventListener('click', () => {
-    const urlInput = document.getElementById('url-input').value;
+  let currentScanId = null;
+  let eventSource = null;
+  let isScanRunning = false;
+
+  // When page loads
+  document.addEventListener('DOMContentLoaded', () => {
+    // Check for existing scan in sessionStorage
+    const savedScan = sessionStorage.getItem('currentScan');
+    if (savedScan) {
+      try {
+        const scanData = JSON.parse(savedScan);
+        document.getElementById('url-input').value = scanData.url || '';
+        document.getElementById('scan-type').value = scanData.scanType || 'all';
+        currentScanId = scanData.scanId;
+        
+        // Restore previous results and reconnect if needed
+        restoreScanResults();
+      } catch (e) {
+        console.error('Error parsing saved scan:', e);
+        clearScanData();
+      }
+    }
+  });
+
+  // New Scan button
+  document.getElementById('new-scan-button').addEventListener('click', () => {
+    if (eventSource) {
+      eventSource.close();
+      eventSource = null;
+    }
+    clearScanData();
+    document.getElementById('scan-results').innerHTML = '';
+    document.getElementById('url-input').value = '';
+    document.getElementById('scan-type').value = 'all';
+    isScanRunning = false;
+  });
+
+  // Start Scan button
+  document.getElementById('scan-button').addEventListener('click', async () => {
+    const urlInput = document.getElementById('url-input').value.trim();
     const scanType = document.getElementById('scan-type').value;
     const resultsDiv = document.getElementById('scan-results');
 
     if (!urlInput) {
-      alert('Please enter a URL to scan.');
+      showError('Please enter a valid URL to scan.');
       return;
     }
 
-    if (scanType !== 'all' && scanType !== 'csrf') {
-      resultsDiv.innerHTML = '<p class="error">This feature will be updated soon.</p>';
+    // Validate URL format
+    if (!isValidUrl(urlInput)) {
+      showError('Please enter a valid URL format (e.g., https://example.com)');
       return;
     }
 
-    resultsDiv.innerHTML = '<p>Starting scan... Please wait.</p>';
+    // Store scan in sessionStorage
+    currentScanId = currentScanId || `scan_${Date.now()}`;
+    sessionStorage.setItem('currentScan', JSON.stringify({
+      scanId: currentScanId,
+      url: urlInput,
+      scanType: scanType
+    }));
 
-    // Establish SSE connection
-    const eventSource = new EventSource(`/stream?url=${encodeURIComponent(urlInput)}&scan_type=${scanType}`);
+    // Start new scan or reconnect to existing one
+    await startOrResumeScan(urlInput, scanType);
+  });
 
+  async function startOrResumeScan(url, scanType) {
+    const resultsDiv = document.getElementById('scan-results');
+    
+    try {
+      // First check if we have existing results
+      const response = await fetch(`/get_scan/${currentScanId}`);
+      if (!response.ok) throw new Error('Failed to fetch scan status');
+      
+      const scanData = await response.json();
+      
+      // Show existing results
+      resultsDiv.innerHTML = '';
+      if (scanData.results && scanData.results.length > 0) {
+        scanData.results.forEach(message => {
+          addResultMessage(message);
+        });
+      } else {
+        // Show loading state if no results yet
+        resultsDiv.innerHTML = `
+          <div class="loading-skeleton">
+            <div class="skeleton-line short"></div>
+            <div class="skeleton-line medium"></div>
+            <div class="skeleton-line"></div>
+            <div class="skeleton-line short"></div>
+          </div>
+        `;
+      }
+      
+      // If scan is already completed, don't reconnect
+      if (scanData.completed) {
+        isScanRunning = false;
+        return;
+      }
+      
+      // Start or resume the scan
+      const startResponse = await fetch('/start_scan', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          url: url,
+          scan_type: scanType,
+          scan_id: currentScanId
+        })
+      });
+      
+      if (!startResponse.ok) throw new Error('Failed to start scan');
+      
+      isScanRunning = true;
+      setupEventStream();
+    } catch (error) {
+      console.error('Error starting/resuming scan:', error);
+      showError('Failed to start or resume scan. Please try again.');
+      isScanRunning = false;
+    }
+  }
+
+  function setupEventStream() {
+    if (eventSource) {
+      eventSource.close();
+    }
+    
+    eventSource = new EventSource(`/stream/${currentScanId}`);
+    
     eventSource.onmessage = (event) => {
       const data = JSON.parse(event.data);
-      const message = data.message;
-
-      const resultLine = document.createElement('p');
-      resultLine.textContent = message;
-
-      if (message.toLowerCase().includes('error') || message.toLowerCase().includes('vulnerable')) {
-        resultLine.classList.add('error');
-      } else if (message.toLowerCase().includes('secure')) {
-        resultLine.classList.add('success');
+      
+      if (data.error) {
+        showError(data.error);
+        return;
       }
-
-      resultsDiv.appendChild(resultLine);
-      resultsDiv.scrollTop = resultsDiv.scrollHeight; // Auto-scroll to the latest result
+      
+      // Remove loading skeleton if present
+      const resultsDiv = document.getElementById('scan-results');
+      if (resultsDiv.querySelector('.loading-skeleton')) {
+        resultsDiv.innerHTML = '';
+      }
+      
+      addResultMessage(data.message);
+      
+      if (data.completed) {
+        isScanRunning = false;
+        eventSource.close();
+        updateStoredScan(currentScanId, data.url, data.scan_type, true);
+      }
     };
-
+    
     eventSource.onerror = () => {
-      eventSource.close();
-      resultsDiv.innerHTML += '<p class="error">Scan completed or connection closed.</p>';
+      if (eventSource) {
+        eventSource.close();
+        eventSource = null;
+      }
+      
+      // Only show completion message if we don't already have one
+      const resultsDiv = document.getElementById('scan-results');
+      if (!resultsDiv.querySelector('.result-message.success')) {
+        const completionMsg = document.createElement('div');
+        completionMsg.className = 'result-message info';
+        completionMsg.textContent = 'Scan connection interrupted. You can safely navigate away - the scan continues in the background.';
+        resultsDiv.appendChild(completionMsg);
+      }
     };
-  });
+  }
+
+  function addResultMessage(message) {
+    const resultsDiv = document.getElementById('scan-results');
+    const resultLine = document.createElement('div');
+    resultLine.className = 'result-message';
+    resultLine.textContent = message;
+
+    // Classify messages
+    if (message.toLowerCase().includes('error') || 
+        message.toLowerCase().includes('vulnerable') ||
+        message.toLowerCase().includes('injection') ||
+        message.toLowerCase().includes('payload') ||
+        message.toLowerCase().includes('too low')) {
+      resultLine.classList.add('error');
+    } else if (message.toLowerCase().includes('secure') || 
+              message.toLowerCase().includes('no vulnerabilities') ||
+              message.toLowerCase().includes('completed')) {
+      resultLine.classList.add('success');
+    } else if (message.toLowerCase().includes('scanning') ||
+              message.toLowerCase().includes('found') ||
+              message.toLowerCase().includes('checking')) {
+      resultLine.classList.add('warning');
+    } else {
+      resultLine.classList.add('info');
+    }
+
+    resultsDiv.appendChild(resultLine);
+    resultsDiv.scrollTop = resultsDiv.scrollHeight;
+  }
+
+  function restoreScanResults() {
+    if (!currentScanId) return;
+    
+    fetch(`/get_scan/${currentScanId}`)
+      .then(response => {
+        if (!response.ok) throw new Error('Network response was not ok');
+        return response.json();
+      })
+      .then(data => {
+        const resultsDiv = document.getElementById('scan-results');
+        resultsDiv.innerHTML = '';
+        
+        if (data.results && data.results.length > 0) {
+          data.results.forEach(message => {
+            addResultMessage(message);
+          });
+
+          if (!data.completed) {
+            // If scan wasn't completed, reconnect to the stream
+            setupEventStream();
+          }
+        } else {
+          resultsDiv.innerHTML = '<div class="result-message info">No previous scan results found</div>';
+        }
+      })
+      .catch(err => {
+        console.error('Error restoring scan:', err);
+        document.getElementById('scan-results').innerHTML = 
+          '<div class="result-message error">Error restoring previous scan</div>';
+        clearScanData();
+      });
+  }
+
+  function updateStoredScan(scanId, url, scanType, completed = false) {
+    sessionStorage.setItem('currentScan', JSON.stringify({
+      scanId,
+      url,
+      scanType,
+      completed
+    }));
+  }
+
+  function clearScanData() {
+    if (currentScanId) {
+      fetch(`/clear_scan/${currentScanId}`)
+        .catch(err => console.error('Error clearing scan:', err));
+    }
+    sessionStorage.removeItem('currentScan');
+    currentScanId = null;
+  }
+
+  function showError(message) {
+    const resultsDiv = document.getElementById('scan-results');
+    resultsDiv.innerHTML = '';
+    const errorMsg = document.createElement('div');
+    errorMsg.className = 'result-message error';
+    errorMsg.textContent = message;
+    resultsDiv.appendChild(errorMsg);
+    isScanRunning = false;
+  }
+
+  function isValidUrl(string) {
+    try {
+      new URL(string);
+      return true;
+    } catch (_) {
+      return false;
+    }
+  }
 </script>
 {% endblock %}
